@@ -5,6 +5,7 @@
  */
 package dto;
 
+import entities.Address;
 import entities.Person;
 
 /**
@@ -16,12 +17,26 @@ public class PersonDTO {
     private String fName;
     private String lName;
     private String phone;
+    private Address adress; 
+    
+    
     public PersonDTO(Person p) {
         this.fName = p.getFirstName();
         this.lName = p.getLastName();
         this.phone = p.getPhone();
         this.id = p.getId();
+        this.adress = p.getAddress(); 
     }
+
+    public PersonDTO(String fName, String lName, String phone, Address adress) {
+        this.fName = fName;
+        this.lName = lName;
+        this.phone = phone;
+        this.adress = adress;
+    }
+    
+    
+    
     public PersonDTO(String fn,String ln, String phone) {
         this.fName = fn;
         this.lName = ln;

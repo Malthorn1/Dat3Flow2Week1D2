@@ -7,6 +7,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 
 
@@ -24,7 +25,19 @@ public class Person implements Serializable {
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date created; 
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Date lastEdited; 
+    private Date lastEdited;
+    
+    @OneToOne
+    private Address address; 
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+    
     
     public Person() {
     }
