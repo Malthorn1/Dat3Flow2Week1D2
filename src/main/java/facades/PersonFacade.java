@@ -3,6 +3,7 @@ package facades;
 import dto.PersonDTO;
 import dto.PersonsDTO;
 import entities.Person;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -70,7 +71,7 @@ public class PersonFacade implements IPersonFacade{
     @Override
     public PersonDTO deletePerson(int id) {
         EntityManager em = getEntityManager(); 
-        Person person = em.find(Person.class, id); 
+        Person person = em.find(Person.class, (long) id); 
         PersonDTO p = new PersonDTO(person); 
         try {
             em.getTransaction().begin();
@@ -86,7 +87,7 @@ public class PersonFacade implements IPersonFacade{
     public PersonDTO getPerson(int id) {
         EntityManager em = getEntityManager(); 
         try {
-            Person person = em.find(Person.class, id); 
+            Person person = em.find(Person.class, (long) id); 
             PersonDTO personDTO = new PersonDTO(person); 
             return personDTO; 
         }
@@ -105,7 +106,26 @@ public class PersonFacade implements IPersonFacade{
 
     @Override
     public PersonDTO editPerson(PersonDTO p) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        EntityManager em = getEntityManager(); 
+        Person person = em.find(Person.class, p.getId()); 
+        try {
+            em.getTransaction().begin();
+            if (p.getfName() != null) {
+                person.setFirstName(p.getfName());
+            }
+            if (p.getlName() != null) {
+                person.setLastName(p.getlName());
+            }
+            if (p.getPhone() != null) {
+                person.setPhone(p.getPhone());
+            }
+            person.setLastEdited(new Date());
+            em.getTransaction().commit();
+            return new PersonDTO(person); 
+        }
+        finally {
+            em.close();
+        }
     }
 
 }

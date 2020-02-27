@@ -54,15 +54,14 @@ public class PersonFacadeTest {
 
     // Setup the DataBase in a known state BEFORE EACH TEST
     //TODO -- Make sure to change the script below to use YOUR OWN entity class
-  //  @BeforeEach
+    @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
         try {
             em.getTransaction().begin();
-            em.createNamedQuery("RenameMe.deleteAllRows").executeUpdate();
-     //       em.persist(new Person("Some txt", "More text"));
-      //      em.persist(new Person("aaa", "bbb"));
-
+            em.createNamedQuery("Person.deleteAllRows").executeUpdate();
+          em.persist(new Person("Some txt", "More text","some phone text"));
+          em.persist(new Person("aaa", "bbb", "more phone text"));
             em.getTransaction().commit();
         } finally {
             em.close();
@@ -80,4 +79,21 @@ public class PersonFacadeTest {
         assertEquals(2, facade.getPersonCount(), "Expects two rows in the database");
     }
 
+    @Test
+    public void testAddPerson () {
+        int expected = facade.getAllPersons().getAll().size() +1; 
+        facade.addPerson("testFirst", "testLast", "Phone"); 
+        int result = facade.getAllPersons().getAll().size(); 
+        assertEquals(expected, result);
+    }
+    
+    @Test
+    public void testDeletePerson() {
+            int expected = 2; 
+            int result = facade.getAllPersons().getAll().size(); 
+            assertEquals(expected, result);
+    }
+    
+    
+    
 }

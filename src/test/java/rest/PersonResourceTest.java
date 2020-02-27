@@ -65,8 +65,8 @@ public class PersonResourceTest {
     @BeforeEach
     public void setUp() {
         EntityManager em = emf.createEntityManager();
-       r1 = new Person("Some txt","More text");
-       r2 = new Person("aaa","bbb");
+       r1 = new Person("Some txt","More text", "phone stuff");
+       r2 = new Person("aaa","bbb", "nokia");
         try {
             em.getTransaction().begin();
             em.createNamedQuery("Person.deleteAllRows").executeUpdate();
@@ -78,10 +78,10 @@ public class PersonResourceTest {
         }
     }
     
- //   @Test
+    @Test
     public void testServerIsUp() {
         System.out.println("Testing is server UP");
-        given().when().get("/xxx").then().statusCode(200);
+        given().when().get("/person").then().statusCode(200);
     }
    
     //This test assumes the database contains two rows
@@ -103,5 +103,16 @@ public class PersonResourceTest {
         .assertThat()
         .statusCode(HttpStatus.OK_200.getStatusCode())
         .body("count", equalTo(2));   
+    }
+    
+    
+    @Test
+    public void testGetPersonById() {
+        Long id = r1.getId();
+        given().when()
+                .get("/person/{id}", id)
+                .then()
+                .assertThat()
+                .body("fName", equalTo("Some txt")); 
     }
 }

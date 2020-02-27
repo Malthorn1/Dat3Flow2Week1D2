@@ -18,9 +18,9 @@ import java.util.List;
     List<PersonDTO> all = new ArrayList();
 
     public PersonsDTO(List<Person> personEntities) {
-//        personEntities.forEach((p) -> {
-//            all.add(new PersonDTO(p));
-//        }); 
+        personEntities.forEach((p) -> {
+            all.add(new PersonDTO(p));
+        }); 
     }
 
     public List<PersonDTO> getAll() {
